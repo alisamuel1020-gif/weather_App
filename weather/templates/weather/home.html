@@ -1,0 +1,262 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WeatherAI | Smart Weather Dashboard</title>
+
+    <meta
+        name="description"
+        content="WeatherAI provides live weather conditions and a five-day forecast for your city."
+    >
+
+    <link rel="stylesheet" href="{% static 'weather/css/style.css' %}">
+    <script src="{% static 'weather/js/app.js' %}" defer></script>
+</head>
+
+<body>
+    <div class="app-shell">
+
+        <!-- Navigation -->
+        <header class="topbar">
+            <a class="brand" href="/">
+                <span class="brand-icon">☀</span>
+                <span>
+                    <strong>WeatherAI</strong>
+                    <small>Your intelligent weather companion</small>
+                </span>
+            </a>
+
+            <div class="topbar-actions">
+                <span class="live-indicator">
+                    <span class="live-dot"></span>
+                    LIVE WEATHER
+                </span>
+
+                <button
+                    id="themeToggle"
+                    class="theme-toggle"
+                    type="button"
+                    aria-label="Switch colour theme"
+                    title="Switch colour theme"
+                >
+                    ☾
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Welcome section -->
+            <section class="welcome-section">
+                <div>
+                    <p class="eyebrow">YOUR PERSONAL WEATHER STATION</p>
+                    <h1>Understand the weather.<br><span>Plan your day.</span></h1>
+                    <p class="welcome-description">
+                        Get current conditions and upcoming forecasts for any city.
+                    </p>
+                </div>
+
+                <div class="welcome-decoration" aria-hidden="true">🌤️</div>
+            </section>
+
+            <!-- City search -->
+            <section class="search-section">
+                <form id="weather-search" class="search-form">
+                    <span class="search-icon" aria-hidden="true">⌕</span>
+
+                    <label class="visually-hidden" for="city">
+                        Enter a city
+                    </label>
+
+                    <input
+                        id="city"
+                        name="city"
+                        type="text"
+                        placeholder="Search a city, e.g. Lagos, Abuja or London"
+                        autocomplete="off"
+                        required
+                    >
+
+                    <button id="searchButton" type="submit">
+                        Search weather
+                    </button>
+                </form>
+
+                <p id="message" class="status-message" role="status" aria-live="polite">
+                    Enter a city to get the latest weather.
+                </p>
+
+                <div class="quick-cities">
+                    <span>Try:</span>
+                    <button class="city-chip" type="button" data-city="Lagos">Lagos</button>
+                    <button class="city-chip" type="button" data-city="Abuja">Abuja</button>
+                    <button class="city-chip" type="button" data-city="London">London</button>
+                    <button class="city-chip" type="button" data-city="New York">New York</button>
+                </div>
+            </section>
+
+            <!-- Current weather -->
+            <section class="current-weather glass-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">RIGHT NOW</p>
+                        <h2>Current weather</h2>
+                    </div>
+
+                    <span id="weatherStatus" class="status-badge">
+                        Waiting for search
+                    </span>
+                </div>
+
+                <div id="currentWeatherContent" class="current-weather-content">
+                    <div class="current-main">
+                        <div>
+                            <p id="weatherLocation" class="weather-location">
+                                Search for a city
+                            </p>
+
+                            <p id="weatherCountry" class="weather-country">
+                                Your location's weather will appear here
+                            </p>
+
+                            <div class="temperature-row">
+                                <span id="temperature" class="temperature">--°</span>
+                                <span id="weatherIcon" class="weather-icon">🌤️</span>
+                            </div>
+
+                            <p id="weatherDescription" class="weather-description">
+                                Waiting for weather data
+                            </p>
+
+                            <p id="feelsLike" class="feels-like">
+                                Feels like --
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="weather-metrics">
+                        <article class="metric-card">
+                            <span class="metric-icon">💧</span>
+                            <div>
+                                <p>Humidity</p>
+                                <strong id="humidity">--%</strong>
+                            </div>
+                        </article>
+
+                        <article class="metric-card">
+                            <span class="metric-icon">💨</span>
+                            <div>
+                                <p>Wind speed</p>
+                                <strong id="windSpeed">-- m/s</strong>
+                            </div>
+                        </article>
+
+                        <article class="metric-card">
+                            <span class="metric-icon">🌡️</span>
+                            <div>
+                                <p>Pressure</p>
+                                <strong id="pressure">-- hPa</strong>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Five-day forecast -->
+            <section class="forecast-section glass-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">PLAN AHEAD</p>
+                        <h2>Five-day forecast</h2>
+                    </div>
+
+                    <span class="forecast-label">UPCOMING WEATHER</span>
+                </div>
+
+                <div id="forecastContainer" class="forecast-container">
+                    <p class="forecast-placeholder">
+                        Search for a city to view its five-day forecast.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Weather assistant -->
+            <section class="assistant-section glass-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">SMART WEATHER COMPANION</p>
+                        <h2>Weather assistant</h2>
+                    </div>
+
+                    <span class="assistant-badge">AI ASSISTANT</span>
+                </div>
+
+                <p class="assistant-intro">
+                    Ask a weather-related question or select a suggestion below.
+                </p>
+
+                <div class="suggested-questions">
+                    <button
+                        class="suggestion-button"
+                        type="button"
+                        data-question="What should I wear today?"
+                    >
+                        👕 What should I wear?
+                    </button>
+
+                    <button
+                        class="suggestion-button"
+                        type="button"
+                        data-question="Should I carry an umbrella?"
+                    >
+                        ☂️ Do I need an umbrella?
+                    </button>
+
+                    <button
+                        class="suggestion-button"
+                        type="button"
+                        data-question="Is it a good day for outdoor activities?"
+                    >
+                        🌳 Outdoor activities
+                    </button>
+                </div>
+
+                <div id="chatMessages" class="chat-messages" aria-live="polite">
+                    <div class="chat-message assistant-message">
+                        Hello! Search for a city first, then ask me about its weather.
+                    </div>
+                </div>
+
+                <form id="chatForm" class="chat-form">
+                    <label class="visually-hidden" for="chatInput">
+                        Ask the weather assistant a question
+                    </label>
+
+                    <input
+                        id="chatInput"
+                        type="text"
+                        placeholder="Ask about the weather..."
+                        autocomplete="off"
+                        required
+                    >
+
+                    <button type="submit">Ask</button>
+                </form>
+
+                <p class="assistant-note">
+                    Note: The assistant currently uses the weather data displayed
+                    above. Connect an AI backend to enable a full conversational AI.
+                </p>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>WeatherAI &copy; <span id="currentYear"></span></p>
+            <p>Weather data powered by OpenWeather.</p>
+        </footer>
+
+    </div>
+</body>
+</html>
